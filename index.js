@@ -62,7 +62,7 @@ function pauseTimer() {
     }
 }
 
-function runOut()
+function runOut() // Audio quand la partie est perdue
 {
     var audio = new Audio('assets/beep.mp3');
     audio.play();
