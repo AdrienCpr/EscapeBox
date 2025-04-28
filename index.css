@@ -1,68 +1,63 @@
 body {
-    background-color: #2f1b0c;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: 'Cinzel', serif; /* Police antique */
+    background-color: #3e2b17;
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
 }
 
 .container {
-    background: linear-gradient(#4b3422, #2f1b0c);
-    border: 8px solid #b88948;
-    border-radius: 20px;
-    padding: 50px 30px;
     text-align: center;
-    box-shadow: inset 0 0 15px #1a0d04, 0 0 20px #000;
-    position: relative;
-}
-
-.container::before {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    right: -15px;
-    bottom: -15px;
-    border: 5px solid #8a5c2f;
-    border-radius: 25px;
-    pointer-events: none;
+    background-color: #5a4227;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px #000;
 }
 
 #timer {
-    font-size: 6rem;
-    color: #f5deb3;
-    font-family: 'Courier Prime', monospace;
-    background: #2a1a0c;
-    padding: 20px 50px;
-    margin-bottom: 40px;
-    border: 5px inset #b88948;
-    border-radius: 15px;
-    text-shadow: 2px 2px 0 #000;
+    font-size: 5rem;
+    margin-bottom: 20px;
 }
 
-button {
-    background: radial-gradient(circle, #d4af37 0%, #a57b2e 80%);
-    border: 3px outset #8b5a2b;
-    color: #3e2c1c;
-    padding: 12px 25px;
-    font-size: 1.4rem;
+.controls {
+    margin-bottom: 15px;
+}
+
+.controls label {
+    margin-right: 10px;
+}
+
+#timeInput {
+    width: 80px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #d4af37;
+    color: #3e2b17;
     font-weight: bold;
-    margin: 10px;
-    border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 5px #5c3b16;
-    transition: all 0.2s ease;
+    transition: background-color 0.3s;
 }
 
-button:active {
-    box-shadow: none;
-    transform: translateY(5px);
+.buttons button:hover {
+    background-color: #b9922b;
 }
 
 img {
     margin-top: 20px;
-    border: 5px groove #8b5a2b;
-    border-radius: 12px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px #000;
 }
