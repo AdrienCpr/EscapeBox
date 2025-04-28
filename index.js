@@ -17,60 +17,58 @@ function updateDisplay() {
 }
 
 function startTimer() {
-    if (isRunning) return;
+    if (isRunning && !isPaused) return; // Empêche de démarrer un deuxième compte à rebours si un est déjà en cours
 
-    const userMinutes = parseInt(timeInput.value, 10);
-    if (!isNaN(userMinutes) && userMinutes > 0) {
-        initialSeconds = userMinutes * 60;
-        totalSeconds = initialSeconds;
-    }
-
-    isRunning = true;
-    isPaused = false;
-
-    countdown = setInterval(() => {
-        updateDisplay();
-        totalSeconds--;
-
-        if (totalSeconds < 0) {
-            clearInterval(countdown);
-            totalSeconds = 0;
-            updateDisplay();
-            runOut();
-
-            isRunning = false;
-            alert("Temps écoulé !");
+    // Si le chronomètre a été réinitialisé ou a été mis en pause, ajuster le temps
+    if (!isRunning || isPaused) {
+        const userMinutes = parseInt(timeInput.value, 10);
+        if (!isNaN(userMinutes) && userMinutes > 0) {
+            initialSeconds = userMinutes * 60;
+            totalSeconds = isPaused ? totalSeconds : initialSeconds; // Si en pause, on garde le temps restant
         }
-    }, 1000);
 
-    updateDisplay();
+        isRunning = true;
+        isPaused = false;
+
+        countdown = setInterval(() => {
+            updateDisplay();
+            totalSeconds--; // Décrémente le temps restant
+
+            if (totalSeconds < 0) {
+                clearInterval(countdown);
+                isRunning = false;
+                runOut();
+                alert("Temps écoulé !");
+            }
+        }, 1000);
+
+        updateDisplay();
+    }
 }
 
 function pauseTimer() {
     if (isRunning && !isPaused) {
-        clearInterval(countdown);
+        clearInterval(countdown); // Met en pause le chronomètre
         isPaused = true;
-        pauseBtn.textContent = "Reprendre";
+        pauseBtn.textContent = "Reprendre"; // Change le texte du bouton pour "Reprendre"
     } else if (isRunning && isPaused) {
-        startTimer();
-        pauseBtn.textContent = "Pause";
+        startTimer();  // Redémarre le chronomètre à partir du temps restant
+        pauseBtn.textContent = "Pause"; // Change le texte du bouton pour "Pause"
     }
 }
 
-function runOut()
-{
-    const audio = new Audio('assets/beep.mp3');
-    audio.play();
-}
-
 function resetTimer() {
-
     clearInterval(countdown);
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
     isPaused = false;
-    pauseBtn.textContent = "Pause";
+    pauseBtn.textContent = "Pause"; // Réinitialise le texte du bouton
+}
+
+function runOut() {
+    const audio = new Audio('assets/beep.mp3');
+    audio.play();
 }
 
 startBtn.addEventListener('click', startTimer);
