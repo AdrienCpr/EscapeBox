@@ -27,8 +27,9 @@ function startTimer() {
             totalSeconds = isPaused ? totalSeconds : initialSeconds; // Si en pause, on garde le temps restant
         }
 
-        isRunning = true;
-        isPaused = false;
+    timerDisplay.style.color = "#f5deb3";
+    isRunning = true;
+    isPaused = false;
 
         countdown = setInterval(() => {
             updateDisplay();
@@ -52,10 +53,12 @@ function pauseTimer() {
     if (isRunning && !isPaused) {
         clearInterval(countdown); // Met en pause le chronomètre
         isPaused = true;
-        pauseBtn.textContent = "Reprendre"; // Change le texte du bouton pour "Reprendre"
+        timerDisplay.style.color = 'gray';
+        pauseBtn.textContent = "Reprendre";
     } else if (isRunning && isPaused) {
-        startTimer();  // Redémarre le chronomètre à partir du temps restant
-        pauseBtn.textContent = "Pause"; // Change le texte du bouton pour "Pause"
+        startTimer();
+        timerDisplay.style.color = "#f5deb3";
+        pauseBtn.textContent = "Pause";
     }
 }
 
@@ -71,7 +74,7 @@ function resetTimer() {
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
-    timerDisplay.style.color = "#d4af37";
+    timerDisplay.style.color = "#f5deb3";
     isPaused = false;
     pauseBtn.textContent = "Pause"; // Réinitialise le texte du bouton
 }
