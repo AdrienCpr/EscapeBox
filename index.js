@@ -38,9 +38,9 @@ function startTimer() {
         if (totalSeconds < 0) {
             clearInterval(countdown);
             totalSeconds = 0;
+            timerDisplay.style.color = 'red';
             updateDisplay();
             runOut();
-
             isRunning = false;
         }
     }, 1000);
@@ -66,7 +66,6 @@ function runOut()
 {
     var audio = new Audio('assets/beep.mp3');
     audio.play();
-    timerDisplay.style.color = 'red';
 }
 
 function resetTimer() {
