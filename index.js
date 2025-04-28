@@ -1,50 +1,44 @@
-let timer;
-let seconds = 0;
-let minutes = 0;
-let hours = 0;
-let running = false;
+let totalSeconds = 60 * 60; // 60 minutes en secondes
+let countdown;
+let isRunning = false;
+
+const timerDisplay = document.getElementById('timer');
+const startBtn = document.getElementById('startBtn');
+const resetBtn = document.getElementById('resetBtn');
 
 function updateDisplay() {
-    const display = document.getElementById('timer');
-    let hrs = hours < 10 ? "0" + hours : hours;
-    let mins = minutes < 10 ? "0" + minutes : minutes;
-    let secs = seconds < 10 ? "0" + seconds : seconds;
-    display.textContent = `${hrs}:${mins}:${secs}`;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    timerDisplay.textContent =
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function startTimer() {
-    if (!running) {
-        running = true;
-        timer = setInterval(() => {
-            seconds++;
-            if (seconds === 60) {
-                seconds = 0;
-                minutes++;
-                if (minutes === 60) {
-                    minutes = 0;
-                    hours++;
-                }
-            }
-            updateDisplay();
-        }, 1000);
-    }
-}
+    if (isRunning) return; // Empêcher plusieurs démarrages
+    isRunning = true;
 
-function stopTimer() {
-    running = false;
-    clearInterval(timer);
+    countdown = setInterval(() => {
+        updateDisplay();
+        totalSeconds--;
+
+        if (totalSeconds < 0) {
+            clearInterval(countdown);
+            totalSeconds = 60 * 60; // Reset à 60 minutes
+            updateDisplay();
+            isRunning = false;
+        }
+    }, 1000);
 }
 
 function resetTimer() {
-    running = false;
-    clearInterval(timer);
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
+    clearInterval(countdown);
+    totalSeconds = 60 * 60;
     updateDisplay();
+    isRunning = false;
 }
 
-// Ajoute cette partie tout à la fin :
-if (typeof module !== 'undefined') {
-    module.exports = { startTimer, stopTimer, resetTimer, updateDisplay };
-}
+startBtn.addEventListener('click', startTimer);
+resetBtn.addEventListener('click', resetTimer);
+
+// Initialiser l'affichage
+updateDisplay();
