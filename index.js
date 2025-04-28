@@ -34,6 +34,10 @@ function startTimer() {
 
         if (totalSeconds < 0) {
             clearInterval(countdown);
+            totalSeconds = 0;
+            updateDisplay();
+            runOut();
+
             isRunning = false;
             alert("Temps écoulé !");
         }
@@ -53,7 +57,14 @@ function pauseTimer() {
     }
 }
 
+function runOut()
+{
+    const audio = new Audio('assets/beep.mp3');
+    audio.play();
+}
+
 function resetTimer() {
+
     clearInterval(countdown);
     totalSeconds = initialSeconds;
     updateDisplay();
