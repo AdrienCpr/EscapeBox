@@ -10,6 +10,14 @@ const resetBtn = document.getElementById('resetBtn');
 const pauseBtn = document.getElementById('pauseBtn');
 const timeInput = document.getElementById('timeInput');
 
+const key1 = document.getElementById('key1');
+const key2 = document.getElementById('key2');
+const key3 = document.getElementById('key3');
+const validateBtn = document.getElementById('validateBtn');
+
+const correctCombination = ['V', '2', 'B', '△']; // Exemple de combinaison correcte
+let foundKeys = [false, false, false]; // Tableaux des clés trouvées
+
 function updateDisplay() {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
@@ -17,33 +25,31 @@ function updateDisplay() {
 }
 
 function startTimer() {
-    if (isRunning && !isPaused) return; // Empêche de démarrer un deuxième compte à rebours si un est déjà en cours
+    if (isRunning && !isPaused) return;
 
-    // Si le chronomètre a été réinitialisé ou a été mis en pause, ajuster le temps
     if (!isRunning || isPaused) {
         const userMinutes = parseInt(timeInput.value, 10);
         if (!isNaN(userMinutes) && userMinutes > 0) {
             initialSeconds = userMinutes * 60;
-            totalSeconds = isPaused ? totalSeconds : initialSeconds; // Si en pause, on garde le temps restant
+            totalSeconds = isPaused ? totalSeconds : initialSeconds;
         }
 
-    timerDisplay.style.color = "#f5deb3";
-    isRunning = true;
-    isPaused = false;
+        isRunning = true;
+        isPaused = false;
 
         countdown = setInterval(() => {
             updateDisplay();
-            totalSeconds--; // Décrémente le temps restant
+            totalSeconds--;
 
-        if (totalSeconds < 0) {
-            clearInterval(countdown);
-            totalSeconds = 0;
-            updateDisplay();
-            runOut();
+            if (totalSeconds < 0) {
+                clearInterval(countdown);
+                totalSeconds = 0;
+                updateDisplay();
+                runOut();
 
-            isRunning = false;
-        }
-    }, 1000);
+                isRunning = false;
+            }
+        }, 1000);
 
         updateDisplay();
     }
@@ -51,22 +57,13 @@ function startTimer() {
 
 function pauseTimer() {
     if (isRunning && !isPaused) {
-        clearInterval(countdown); // Met en pause le chronomètre
+        clearInterval(countdown);
         isPaused = true;
-        timerDisplay.style.color = 'gray';
         pauseBtn.textContent = "Reprendre";
     } else if (isRunning && isPaused) {
         startTimer();
-        timerDisplay.style.color = "#f5deb3";
         pauseBtn.textContent = "Pause";
     }
-}
-
-function runOut()
-{
-    var audio = new Audio('assets/beep.mp3');
-    audio.play();
-    timerDisplay.style.color = 'red';
 }
 
 function resetTimer() {
@@ -74,15 +71,32 @@ function resetTimer() {
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
-    timerDisplay.style.color = "#f5deb3";
     isPaused = false;
-    pauseBtn.textContent = "Pause"; // Réinitialise le texte du bouton
+    pauseBtn.textContent = "Pause";
 }
 
 function runOut() {
     const audio = new Audio('assets/beep.mp3');
     audio.play();
 }
+
+// Validation de la combinaison
+validateBtn.addEventListener('click', () => {
+    const select1 = document.getElementById('select1').value;
+    const select2 = document.getElementById('select2').value;
+    const select3 = document.getElementById('select3').value;
+    const select4 = document.getElementById('select4').value;
+
+    const userCombination = [select1, select2, select3, select4];
+
+    if (JSON.stringify(userCombination) === JSON.stringify(correctCombination)) {
+        alert('Combinaison correcte !');
+        foundKeys[0] = true; // Marque la première clé comme trouvée
+        key1.style.backgroundColor = 'green'; // Change la couleur de la clé
+    } else {
+        alert('Mauvaise combinaison !');
+    }
+});
 
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
