@@ -27,6 +27,7 @@ function updateDisplay() {
 function startTimer() {
     if (isRunning && !isPaused) return;
 
+    // Si le chronomètre a été réinitialisé ou a été mis en pause, ajuster le temps
     if (!isRunning || isPaused) {
         const userMinutes = parseInt(timeInput.value, 10);
         if (!isNaN(userMinutes) && userMinutes > 0) {
@@ -41,15 +42,15 @@ function startTimer() {
             updateDisplay();
             totalSeconds--;
 
-            if (totalSeconds < 0) {
-                clearInterval(countdown);
-                totalSeconds = 0;
-                updateDisplay();
-                runOut();
-
-                isRunning = false;
-            }
-        }, 1000);
+        if (totalSeconds < 0) {
+            clearInterval(countdown);
+            totalSeconds = 0;
+            timerDisplay.style.color = 'red';
+            updateDisplay();
+            runOut();
+            isRunning = false;
+        }
+    }, 1000);
 
         updateDisplay();
     }
@@ -59,11 +60,20 @@ function pauseTimer() {
     if (isRunning && !isPaused) {
         clearInterval(countdown);
         isPaused = true;
+        timerDisplay.style.color = 'gray';
         pauseBtn.textContent = "Reprendre";
     } else if (isRunning && isPaused) {
         startTimer();
+        timerDisplay.style.color = "#f5deb3";
         pauseBtn.textContent = "Pause";
     }
+}
+
+function runOut()
+{
+    var audio = new Audio('assets/beep.mp3');
+    audio.play();
+    timerDisplay.style.color = 'red';
 }
 
 function resetTimer() {
@@ -71,32 +81,10 @@ function resetTimer() {
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
+    timerDisplay.style.color = "#f5deb3";
     isPaused = false;
     pauseBtn.textContent = "Pause";
 }
-
-function runOut() {
-    const audio = new Audio('assets/beep.mp3');
-    audio.play();
-}
-
-// Validation de la combinaison
-validateBtn.addEventListener('click', () => {
-    const select1 = document.getElementById('select1').value;
-    const select2 = document.getElementById('select2').value;
-    const select3 = document.getElementById('select3').value;
-    const select4 = document.getElementById('select4').value;
-
-    const userCombination = [select1, select2, select3, select4];
-
-    if (JSON.stringify(userCombination) === JSON.stringify(correctCombination)) {
-        alert('Combinaison correcte !');
-        foundKeys[0] = true; // Marque la première clé comme trouvée
-        key1.style.backgroundColor = 'green'; // Change la couleur de la clé
-    } else {
-        alert('Mauvaise combinaison !');
-    }
-});
 
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
