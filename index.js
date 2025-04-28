@@ -1,4 +1,4 @@
-let totalSeconds = 60 * 60; // 60 minutes en secondes
+let totalSeconds = 10 * 1; // 60 minutes en secondes
 let countdown;
 let isRunning = false;
 
@@ -23,14 +23,22 @@ function startTimer() {
 
         if (totalSeconds < 0) {
             clearInterval(countdown);
-            totalSeconds = 60 * 60; // Reset à 60 minutes
+            totalSeconds = 0;
             updateDisplay();
+            runOut();
             isRunning = false;
         }
     }, 1000);
 }
 
+function runOut()
+{
+    var audio = new Audio('assets/beep.mp3');
+        audio.play();
+}
+
 function resetTimer() {
+
     clearInterval(countdown);
     totalSeconds = 60 * 60;
     updateDisplay();
