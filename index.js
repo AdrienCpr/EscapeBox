@@ -34,13 +34,15 @@ function startTimer() {
             updateDisplay();
             totalSeconds--; // Décrémente le temps restant
 
-            if (totalSeconds < 0) {
-                clearInterval(countdown);
-                isRunning = false;
-                runOut();
-                alert("Temps écoulé !");
-            }
-        }, 1000);
+        if (totalSeconds < 0) {
+            clearInterval(countdown);
+            totalSeconds = 0;
+            updateDisplay();
+            runOut();
+
+            isRunning = false;
+        }
+    }, 1000);
 
         updateDisplay();
     }
@@ -57,11 +59,19 @@ function pauseTimer() {
     }
 }
 
+function runOut()
+{
+    var audio = new Audio('assets/beep.mp3');
+    audio.play();
+    timerDisplay.style.color = 'red';
+}
+
 function resetTimer() {
     clearInterval(countdown);
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
+    timerDisplay.style.color = "#d4af37";
     isPaused = false;
     pauseBtn.textContent = "Pause"; // Réinitialise le texte du bouton
 }
