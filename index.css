@@ -1,9 +1,9 @@
 body {
     background-color: #2f1b0c;
-    background-image: url('assets/steampunkBG.jpg');
-    background-size: cover;        /* Makes it stretch and fill */
-    background-repeat: no-repeat;  /* Prevents tiling */
-    background-position: center;   /* Keeps it nicely centered */
+    background-image: url('assets/steampunkBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
