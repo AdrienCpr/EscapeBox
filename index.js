@@ -86,6 +86,23 @@ function resetTimer() {
     pauseBtn.textContent = "Pause";
 }
 
+validateBtn.addEventListener('click', () => {
+    const select1 = document.getElementById('select1').value;
+    const select2 = document.getElementById('select2').value;
+    const select3 = document.getElementById('select3').value;
+    const select4 = document.getElementById('select4').value;
+
+    const userCombination = [select1, select2, select3, select4];
+
+    if (JSON.stringify(userCombination) === JSON.stringify(correctCombination)) {
+        alert('Combinaison correcte !');
+        foundKeys[0] = true; // Marque la première clé comme trouvée
+        key1.style.backgroundColor = 'green'; // Change la couleur de la clé
+    } else {
+        alert('Mauvaise combinaison !');
+    }
+});
+
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
