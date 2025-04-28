@@ -43,3 +43,8 @@ function resetTimer() {
     hours = 0;
     updateDisplay();
 }
+
+// Ajoute cette partie tout à la fin :
+if (typeof module !== 'undefined') {
+    module.exports = { startTimer, stopTimer, resetTimer, updateDisplay };
+}
