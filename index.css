@@ -37,13 +37,14 @@ body {
 #timer {
     font-size: 6rem;
     color: #f5deb3;
-    font-family: 'Courier Prime', monospace;
     background: #2a1a0c;
     padding: 20px 50px;
     margin-bottom: 40px;
     border: 5px inset #b88948;
     border-radius: 15px;
-    text-shadow: 2px 2px 0 #000;
+    text-shadow: 6px 6px 0 #000;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
 }
 
 button {
