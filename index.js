@@ -25,6 +25,7 @@ function startTimer() {
         totalSeconds = initialSeconds;
     }
 
+    timerDisplay.style.color = "#f5deb3";
     isRunning = true;
     isPaused = false;
 
@@ -49,9 +50,11 @@ function pauseTimer() {
     if (isRunning && !isPaused) {
         clearInterval(countdown);
         isPaused = true;
+        timerDisplay.style.color = 'gray';
         pauseBtn.textContent = "Reprendre";
     } else if (isRunning && isPaused) {
         startTimer();
+        timerDisplay.style.color = "#f5deb3";
         pauseBtn.textContent = "Pause";
     }
 }
@@ -69,7 +72,7 @@ function resetTimer() {
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
-    timerDisplay.style.color = "#d4af37";
+    timerDisplay.style.color = "#f5deb3";
     isPaused = false;
     pauseBtn.textContent = "Pause";
 }
