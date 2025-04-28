@@ -69,11 +69,23 @@ function pauseTimer() {
     }
 }
 
-function runOut()
+function runOut() // Audio lorsque le timer expire
 {
     var audio = new Audio('assets/beep.mp3');
     audio.play();
     timerDisplay.style.color = 'red';
+}
+
+function rightGuess() // Si la clé est correcte
+{
+    var audio = new Audio('assets/correct.mp3');
+    audio.play();
+}
+
+function wrongGuess() // Si la clé est incorrecte
+{
+    var audio = new Audio('assets/incorrect.mp3');
+    audio.play();
 }
 
 function resetTimer() {
@@ -98,8 +110,10 @@ validateBtn.addEventListener('click', () => {
         alert('Combinaison correcte !');
         foundKeys[0] = true; // Marque la première clé comme trouvée
         key1.style.backgroundColor = 'green'; // Change la couleur de la clé
+        rightGuess();
     } else {
         alert('Mauvaise combinaison !');
+        wrongGuess();
     }
 });
 
