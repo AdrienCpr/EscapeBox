@@ -2,49 +2,62 @@
  * @jest-environment jsdom
  */
 
-const { startTimer, stopTimer, resetTimer, updateDisplay } = require('./index.js');
+const fs = require('fs');
+const path = require('path');
 
-// Simuler un timer DOM
-document.body.innerHTML = `
-  <h1 id="timer">00:00:00</h1>
-`;
+// Charger le HTML avant de tester
+const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
 
-jest.useFakeTimers();
+let script;
 
-describe('Timer', () => {
+describe('Timer Test', () => {
     beforeEach(() => {
-        resetTimer();
-        jest.clearAllTimers();
-        jest.spyOn(global, 'setInterval');
-        jest.spyOn(global, 'clearInterval');
+        document.documentElement.innerHTML = html.toString();
+        script = require('./index.js'); // Charger ton script
+        jest.useFakeTimers();
     });
 
     afterEach(() => {
-        jest.restoreAllMocks();
+        jest.clearAllTimers();
+        jest.resetModules();
     });
 
-    test('Le timer démarre correctement', () => {
-        startTimer();
-        expect(setInterval).toHaveBeenCalledTimes(1);
+    test('Affiche 60:00 au démarrage', () => {
+        const timer = document.getElementById('timer');
+        expect(timer.textContent).toBe('60:00');
     });
 
-    test('Le timer s\'arrête correctement', () => {
-        startTimer();
-        stopTimer();
-        expect(clearInterval).toHaveBeenCalledTimes(1);
+    test('Démarre le timer et décrémente les secondes', () => {
+        const startBtn = document.getElementById('startBtn');
+        startBtn.click();
+
+        jest.advanceTimersByTime(1000); // 1 seconde passe
+
+        const timer = document.getElementById('timer');
+        expect(timer.textContent).toBe('59:59');
     });
 
-    test('Le timer se réinitialise correctement', () => {
-        startTimer();
-        resetTimer();
-        const display = document.getElementById('timer').textContent;
-        expect(display).toBe('00:00:00');
+    test('Reset ramène à 60:00', () => {
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        startBtn.click();
+        jest.advanceTimersByTime(5000); // 5 secondes passent
+
+        resetBtn.click();
+
+        const timer = document.getElementById('timer');
+        expect(timer.textContent).toBe('60:00');
     });
 
-    test('Le timer affiche correctement après quelques secondes', () => {
-        startTimer();
-        jest.advanceTimersByTime(3000); // 3 secondes
-        const display = document.getElementById('timer').textContent;
-        expect(display).toBe('00:00:03');
+    test('Timer reset automatiquement à 60:00 après expiration', () => {
+        const startBtn = document.getElementById('startBtn');
+        startBtn.click();
+
+        // Simuler l'expiration complète (3600 secondes)
+        jest.advanceTimersByTime(3600 * 1000 + 1000); // 1h + 1s
+
+        const timer = document.getElementById('timer');
+        expect(timer.textContent).toBe('60:00');
     });
 });
