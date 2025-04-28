@@ -36,7 +36,6 @@ function startTimer() {
             runOut();
 
             isRunning = false;
-            alert("Temps écoulé !");
         }
     }, 1000);
 
@@ -46,7 +45,8 @@ function startTimer() {
 function runOut()
 {
     var audio = new Audio('assets/beep.mp3');
-        audio.play();
+    audio.play();
+    timerDisplay.style.color = 'red';
 }
 
 function resetTimer() {
@@ -55,6 +55,7 @@ function resetTimer() {
     totalSeconds = initialSeconds;
     updateDisplay();
     isRunning = false;
+    timerDisplay.style.color = "#d4af37";
 }
 
 startBtn.addEventListener('click', startTimer);
