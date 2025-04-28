@@ -1,34 +1,53 @@
 body {
+    background-color: #3e2c1c;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f2f5;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Georgia', serif; /* Police rétro */
 }
 
 .container {
+    background-color: #5a432a;
+    border: 5px solid #b8860b;
+    border-radius: 20px;
+    padding: 40px;
     text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
 #timer {
-    font-size: 5rem;
-    margin-bottom: 20px;
+    font-size: 6rem;
+    color: #ffd700;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #3b2b1a;
+    padding: 20px 40px;
+    border: 4px inset #b8860b;
+    border-radius: 12px;
+    margin-bottom: 30px;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    margin: 5px;
-    border: none;
-    border-radius: 8px;
-    background-color: #007bff;
-    color: white;
+    background: linear-gradient(to bottom, #d4af37, #b8860b);
+    border: 2px solid #8b5a2b;
+    color: #3e2c1c;
+    padding: 12px 24px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 10px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to bottom, #ffd700, #c99800);
+    transform: scale(1.05);
+}
+
+img {
+    margin-top: 20px;
+    border: 5px solid #8b5a2b;
+    border-radius: 10px;
 }
