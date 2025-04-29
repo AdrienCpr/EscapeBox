@@ -1,6 +1,8 @@
+import { CONFIG } from '../../config/config.js';
+
 export class PasswordPopup {
     constructor() {
-        this.password = 'escape'; // Mot de passe par défaut
+        this.password = CONFIG.adminPassword;
         this.popup = null;
         this.createPopup();
     }
