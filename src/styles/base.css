@@ -1,0 +1,48 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variables globales */
+:root {
+    --primary-color: #d4af37;
+    --primary-hover: #a57b2e;
+    --text-color: #f5deb3;
+    --background-color: #2f1b0c;
+    --border-color: #b88948;
+    --container-bg: linear-gradient(#4b3422, #2f1b0c);
+    --button-shadow: 0 5px #5c3b16;
+    --font-main: 'Courier Prime', monospace;
+    --font-title: 'Cinzel', serif;
+}
+
+/* Styles de base */
+html {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: url('../assets/steampunkBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border: 5px groove #8b5a2b;
+    border-radius: 12px;
+} 
