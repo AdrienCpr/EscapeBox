@@ -40,4 +40,19 @@ export class KeyManager {
     areAllKeysUnlocked() {
         return Object.values(this.keys).every(key => key === true);
     }
+
+    setActiveKeys(count) {
+        const keyIds = Object.keys(this.keys);
+    
+        keyIds.forEach((keyId, index) => {
+            const keyElement = document.getElementById(keyId);
+            if (keyElement) {
+                if (index < count) {
+                    keyElement.style.display = 'block'; // Affiche
+                } else {
+                    keyElement.style.display = 'none';  // Cache
+                }
+            }
+        });
+    }    
 } 

@@ -28,6 +28,7 @@ class EscapeBoxApp {
             this.combinationManager.initializeSelects();
             this.keyManager.initializeKeys();
 
+<<<<<<< Updated upstream
             // Gérer les événements des boutons
             document.getElementById('startBtn').addEventListener('click', () => this.timer.start());
             document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
@@ -51,6 +52,16 @@ class EscapeBoxApp {
         } catch (error) {
             console.error('Erreur lors de l\'initialisation de l\'application:', error);
         }
+=======
+        // Gérer les événements du menu
+        document.getElementById('menuToggle').addEventListener('click', () => this.handleMenuToggle());
+        document.getElementById('closeMenu').addEventListener('click', () => this.toggleMenu());
+        document.getElementById('applyTimeBtn').addEventListener('click', () => this.applyTime());
+
+        // 🔥 Gérer les événements des boutons Démo / 60 min
+        document.getElementById('Btn15').addEventListener('click', () => this.setDemoMode());
+        document.getElementById('Btn60').addEventListener('click', () => this.setStandardMode());
+>>>>>>> Stashed changes
     }
 
     handleMenuToggle() {
@@ -84,9 +95,33 @@ class EscapeBoxApp {
         this.timer.reset(newTime);
         this.toggleMenu();
     }
+
+    setDemoMode() {
+        this.timer.reset(15); // 15 minutes
+        this.showAdminCombinations(1); // 1 clé
+        this.keyManager.setActiveKeys(1); // 1 clé affichée
+    }
+
+    setStandardMode() {
+        this.timer.reset(60); // 60 minutes
+        this.showAdminCombinations(3); // 3 clés
+        this.keyManager.setActiveKeys(3); // 3 clés affichées
+    }
+
+    showAdminCombinations(numberOfLines) {
+        const allCombinations = document.querySelectorAll('.admin-combination');
+
+        allCombinations.forEach((combo, index) => {
+            if (index < numberOfLines) {
+                combo.style.display = 'block';
+            } else {
+                combo.style.display = 'none';
+            }
+        });
+    }
 }
 
 // Initialiser l'application
 document.addEventListener('DOMContentLoaded', () => {
     new EscapeBoxApp();
-}); 
+});
