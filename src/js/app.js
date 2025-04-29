@@ -87,11 +87,41 @@ class EscapeBoxApp {
     }
 
     validateCombination() {
-        const isValid = this.combinationManager.validateCombination();
-        if (isValid) {
-            this.keyManager.unlockNextKey();
+        const storedCombinations = JSON.parse(localStorage.getItem('escapeBoxCombinations'));
+    
+        if (!storedCombinations) {
+            alert('Aucune combinaison enregistrée.');
+            return;
         }
-    }
+    
+        const keyOrder = ['key1', 'key2', 'key3'];
+        const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
+    
+        if (!nextKey) {
+            alert('Toutes les clés ont déjà été trouvées !');
+            return;
+        }
+    
+        const keyIndex = keyOrder.indexOf(nextKey);
+    
+        const playerCombination = [
+            document.getElementById('playerSelect1')?.value,
+            document.getElementById('playerSelect2')?.value,
+            document.getElementById('playerSelect3')?.value,
+            document.getElementById('playerSelect4')?.value
+        ];
+    
+        const expectedCombination = storedCombinations[keyIndex];
+    
+        const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
+    
+        if (isCorrect) {
+            alert('Bravo ! Vous avez trouvé la bonne combinaison.');
+            this.keyManager.unlockKey(nextKey);
+        } else {
+            alert('Mauvaise combinaison, réessayez.');
+        }
+    }    
 
     toggleMenu() {
         const menu = document.getElementById('dropdownMenu');
@@ -111,11 +141,17 @@ class EscapeBoxApp {
     }
 
     setDemoMode() {
-        this.timer.reset(15);
+        this.timer.reset(15); // 15 minutes
+        this.activeCombinationLines = 1;
+        this.showAdminCombinations(1);
+        this.keyManager.setActiveKeys(1);
     }
 
     setStandardMode() {
-        this.timer.reset(60);
+        this.timer.reset(60); // 60 minutes
+        this.activeCombinationLines = 3;
+        this.showAdminCombinations(3);
+        this.keyManager.setActiveKeys(3);
     }
 
     showAdminCombinations(numberOfLines) {
