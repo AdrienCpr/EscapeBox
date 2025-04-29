@@ -11,4 +11,3 @@ function genererCombinaisons() {
 
 // Exemple d'utilisation
 const mesCombinaisons = genererCombinaisons();
-console.log(mesCombinaisons);

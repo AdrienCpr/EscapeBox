@@ -24,7 +24,7 @@ export class CombinationManager {
         
         // Vérifier si la combinaison est correcte
         // TODO: Implémenter la logique de validation
-        console.log('Combinaison actuelle:', currentCombination);
+     
         
         return false; // À modifier selon la logique de validation
     }

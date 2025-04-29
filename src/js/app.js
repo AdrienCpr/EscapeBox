@@ -14,6 +14,8 @@ class EscapeBoxApp {
         this.menu = new Menu();
         this.isDemoMode = false;
         this.initializeApp();
+        this.keyOrder = [];
+        
     }
 
     async initializeApp() {
@@ -24,7 +26,7 @@ class EscapeBoxApp {
                 console.error('Le menu n\'a pas pu être chargé');
                 return;
             }
-
+            localStorage.clear();
             //Disable buttons if keys are empties
             // Wait until the DOM has rendered all necessary elements
             const startBtn = document.getElementById('startBtn');
@@ -32,12 +34,12 @@ class EscapeBoxApp {
 
             if (startBtn && resetBtn) {
                 const savedCombinations = localStorage.getItem('escapeBoxCombinations');
-                console.log('Saved:', savedCombinations);
+        
 
                 if (!savedCombinations || JSON.parse(savedCombinations).length === 0) {
                     startBtn.disabled = true;
                     resetBtn.disabled = true;
-                    console.log('Buttons disabled due to no combinations');
+                
                 }
             } else {
                 console.warn('Buttons not found in DOM when checking combinations');
@@ -113,11 +115,11 @@ class EscapeBoxApp {
             return;
         }
 
-        const keyOrder = ['key1', 'key2', 'key3'];
-        const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
+        
+        const nextKey = this.keyOrder.find(keyId => !this.keyManager.keys[keyId]);
 
         // Vérifier si toutes les clés ont été trouvées
-        const allKeysFound = keyOrder.every(keyId => this.keyManager.keys[keyId]);
+        const allKeysFound = this.keyOrder.every(keyId => this.keyManager.keys[keyId]);
         if (allKeysFound) {
             let audio = new Audio('./src/assets/victory.mp3');
             audio.play();
@@ -131,7 +133,7 @@ class EscapeBoxApp {
             return;
         }
 
-        const keyIndex = keyOrder.indexOf(nextKey);
+        const keyIndex = this.keyOrder.indexOf(nextKey);
 
         const playerCombination = [
             document.getElementById('playerSelect1')?.value,
@@ -151,7 +153,7 @@ class EscapeBoxApp {
             this.keyManager.unlockKey(nextKey);
 
             // Vérifier si toutes les combinaisons sont maintenant validées
-            const allCombinationsValidated = keyOrder.every(keyId => this.keyManager.keys[keyId]);
+            const allCombinationsValidated = this.keyOrder.every(keyId => this.keyManager.keys[keyId]);
             if (allCombinationsValidated) {
                 let audio = new Audio('./src/assets/victory.mp3');
                 audio.play();
@@ -187,6 +189,7 @@ class EscapeBoxApp {
         this.timer.reset(15);
         this.showAdminCombinations(1);
         this.keyManager.setActiveKeys(1);
+        this.keyOrder = ['key1'];
     }
 
     setStandardMode() {
@@ -194,6 +197,7 @@ class EscapeBoxApp {
         this.timer.reset(60);
         this.showAdminCombinations(3);
         this.keyManager.setActiveKeys(3);
+        this.keyOrder = ['key1', 'key2', 'key3'];
     }
 
     showAdminCombinations(numberOfLines) {
@@ -226,7 +230,7 @@ class EscapeBoxApp {
         }
     
         localStorage.setItem('escapeBoxCombinations', JSON.stringify(combinations));
-        console.log('Combinaisons sauvegardées:', combinations);
+       
         this.updateButtonStates();
     }    
 

@@ -74,6 +74,6 @@ export class KeyManager {
         }
     
         localStorage.setItem('escapeBoxCombinations', JSON.stringify(combinations));
-        console.log('Combinaisons sauvegardées:', combinations);
+       
     }    
 }
