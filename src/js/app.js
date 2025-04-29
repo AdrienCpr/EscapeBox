@@ -106,11 +106,45 @@ class EscapeBoxApp {
     }
 
     validateCombination() {
-        const isValid = this.combinationManager.validateCombination();
-        if (isValid) {
-            this.keyManager.unlockNextKey();
+        const storedCombinations = JSON.parse(localStorage.getItem('escapeBoxCombinations'));
+
+        if (!storedCombinations) {
+            alert('Aucune combinaison enregistrée.');
+            return;
         }
-    }    
+
+        const keyOrder = ['key1', 'key2', 'key3'];
+        const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
+
+        if (!nextKey) {
+            alert('Toutes les clés ont déjà été trouvées !');
+            return;
+        }
+
+        const keyIndex = keyOrder.indexOf(nextKey);
+
+        const playerCombination = [
+            document.getElementById('playerSelect1')?.value,
+            document.getElementById('playerSelect2')?.value,
+            document.getElementById('playerSelect3')?.value,
+            document.getElementById('playerSelect4')?.value
+        ];
+
+        const expectedCombination = storedCombinations[keyIndex];
+
+        const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
+
+        if (isCorrect) {
+            let audio = new Audio('./src/assets/correct_answer.mp3');
+            audio.play();
+            this.showToast('Bravo ! Vous avez trouvé la bonne combinaison.', 'success');
+            this.keyManager.unlockKey(nextKey);
+        } else {
+            let audio = new Audio('./src/assets/wrong_answer.mp3');
+            audio.play();
+            this.showToast('Mauvaise combinaison, réessayez.');
+        }
+    } 
 
     toggleMenu() {
         const menu = document.getElementById('dropdownMenu');
