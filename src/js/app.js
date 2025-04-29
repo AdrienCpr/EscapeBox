@@ -37,8 +37,11 @@ class EscapeBoxApp {
             // Gérer les événements du menu
             document.getElementById('menuToggle')?.addEventListener('click', () => this.handleMenuToggle());
             document.getElementById('closeMenu')?.addEventListener('click', () => this.toggleMenu());
-            document.getElementById('applyTimeBtn')?.addEventListener('click', () => this.applyTime());
-
+            document.getElementById('applyTimeBtn')?.addEventListener('click', () => {
+                this.saveAdminCombinations();
+                this.applyTime();
+            });
+                        
             // Gérer les événements des boutons Démo / 60 min
             document.getElementById('Btn15')?.addEventListener('click', () => this.setDemoMode());
             document.getElementById('Btn60')?.addEventListener('click', () => this.setStandardMode());
@@ -99,6 +102,27 @@ class EscapeBoxApp {
             }
         });
     }
+
+    saveAdminCombinations() {
+        const combinations = [];
+    
+        for (let i = 0; i < 3; i++) { // Pour 3 clés maximum
+            const keyCombination = [];
+            for (let j = 0; j < 4; j++) { // 4 selects par clé
+                const selectId = `adminSelect${i * 4 + j + 1}`;
+                const select = document.getElementById(selectId);
+                if (!select || select.value === '') {
+                    alert('Veuillez renseigner toutes les clés.');
+                    return;
+                }
+                keyCombination.push(select.value);
+            }
+            combinations.push(keyCombination);
+        }
+    
+        localStorage.setItem('escapeBoxCombinations', JSON.stringify(combinations));
+        console.log('Combinaisons sauvegardées:', combinations);
+    }    
 }
 
 // Initialiser l'application

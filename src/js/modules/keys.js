@@ -55,4 +55,25 @@ export class KeyManager {
             }
         });
     }    
+
+    saveAdminCombinations() {
+        const combinations = [];
+    
+        for (let i = 0; i < 3; i++) { // Pour 3 clés maximum
+            const keyCombination = [];
+            for (let j = 0; j < 4; j++) { // 4 select par clé
+                const selectId = `adminSelect${i * 4 + j + 1}`;
+                const select = document.getElementById(selectId);
+                if (!select || select.value === '') {
+                    alert('Veuillez renseigner toutes les clés.');
+                    return;
+                }
+                keyCombination.push(select.value);
+            }
+            combinations.push(keyCombination);
+        }
+    
+        localStorage.setItem('escapeBoxCombinations', JSON.stringify(combinations));
+        console.log('Combinaisons sauvegardées:', combinations);
+    }    
 } 
