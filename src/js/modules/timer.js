@@ -13,6 +13,12 @@ export class Timer {
                     this.time--;
                     this.updateDisplay();
                 } else {
+                    const timerDisplay = document.getElementById('timer');
+
+                    timerDisplay.style.color = 'red';
+                    let audio = new Audio('./src/assets/beep.mp3');
+                    audio.play();
+
                     this.stop();
                 }
             }, 1000);
