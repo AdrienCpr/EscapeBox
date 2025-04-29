@@ -62,6 +62,9 @@ class EscapeBoxApp {
         document.getElementById('Btn15').addEventListener('click', () => this.setDemoMode());
         document.getElementById('Btn60').addEventListener('click', () => this.setStandardMode());
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
