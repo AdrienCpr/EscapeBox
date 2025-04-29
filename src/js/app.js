@@ -15,7 +15,7 @@ class EscapeBoxApp {
         this.initializeApp();
     }
 
-    async initializeApp() { 
+    async initializeApp() {
         try {
             // Attendre que le menu soit chargé
             const menuLoaded = await this.menu.loadMenu();
@@ -29,7 +29,10 @@ class EscapeBoxApp {
             this.keyManager.initializeKeys();
 
             // Gérer les événements des boutons
-            document.getElementById('startBtn')?.addEventListener('click', () => this.timer.start());
+            document.getElementById('startBtn')?.addEventListener('click', () => {
+                this.timer.start();
+                document.querySelector('.game-content').classList.add('visible');
+            });
             document.getElementById('resetBtn')?.addEventListener('click', () => this.resetGame());
             document.getElementById('pauseBtn')?.addEventListener('click', () => this.timer.stop());
             document.getElementById('validateBtn')?.addEventListener('click', () => this.validateCombination());
@@ -37,10 +40,7 @@ class EscapeBoxApp {
             // Gérer les événements du menu
             document.getElementById('menuToggle')?.addEventListener('click', () => this.handleMenuToggle());
             document.getElementById('closeMenu')?.addEventListener('click', () => this.toggleMenu());
-            document.getElementById('applyTimeBtn')?.addEventListener('click', () => {
-                this.saveAdminCombinations();
-                this.applyTime();
-            });
+            document.getElementById('applyTimeBtn')?.addEventListener('click', () => this.applyTime());
 
             // Gérer les événements des boutons Démo / 60 min
             document.getElementById('Btn15')?.addEventListener('click', () => this.setDemoMode());
@@ -55,45 +55,16 @@ class EscapeBoxApp {
     }
 
     resetGame() {
-        this.timer.reset(CONFIG.defaultTime);
+        this.timer.reset();
         this.combinationManager.resetCombination();
         this.keyManager.resetKeys();
+        document.querySelector('.game-content').classList.remove('visible');
     }
 
     validateCombination() {
-        const storedCombinations = JSON.parse(localStorage.getItem('escapeBoxCombinations'));
-    
-        if (!storedCombinations) {
-            alert('Aucune combinaison enregistrée.');
-            return;
-        }
-    
-        const keyOrder = ['key1', 'key2', 'key3'];
-        const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
-    
-        if (!nextKey) {
-            alert('Toutes les clés ont déjà été trouvées !');
-            return;
-        }
-    
-        const keyIndex = keyOrder.indexOf(nextKey);
-    
-        const playerCombination = [
-            document.getElementById('playerSelect1')?.value,
-            document.getElementById('playerSelect2')?.value,
-            document.getElementById('playerSelect3')?.value,
-            document.getElementById('playerSelect4')?.value
-        ];
-    
-        const expectedCombination = storedCombinations[keyIndex];
-    
-        const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
-    
-        if (isCorrect) {
-            alert('Bravo ! Vous avez trouvé la bonne combinaison.');
-            this.keyManager.unlockKey(nextKey);
-        } else {
-            alert('Mauvaise combinaison, réessayez.');
+        const isValid = this.combinationManager.validateCombination();
+        if (isValid) {
+            this.keyManager.unlockNextKey();
         }
     }
 
@@ -106,28 +77,19 @@ class EscapeBoxApp {
 
     applyTime() {
         const timeInput = document.getElementById('timeInput');
-    
-        if (timeInput && timeInput.value) {
-            const newTime = parseInt(timeInput.value);
-            if (!isNaN(newTime)) {
-                this.timer.reset(newTime);
-            }
+        const newTime = parseInt(timeInput.value);
+        if (!isNaN(newTime) && newTime > 0) {
+            this.timer.reset(newTime);
         }
-        
-        this.toggleMenu();
-    }    
+    }
 
     setDemoMode() {
-        this.timer.reset(15); // 15 minutes
-        this.showAdminCombinations(1); // ❗ 1 ligne de combinaison MJ
-        this.keyManager.setActiveKeys(1); // ❗ 1 clé visible côté joueurs
+        this.timer.reset(15);
     }
-    
+
     setStandardMode() {
-        this.timer.reset(60); // 60 minutes
-        this.showAdminCombinations(3); // ❗ 3 lignes de combinaisons MJ
-        this.keyManager.setActiveKeys(3);
-    }    
+        this.timer.reset(60);
+    }
 
     showAdminCombinations(numberOfLines) {
         const allCombinations = document.querySelectorAll('.admin-combination');
