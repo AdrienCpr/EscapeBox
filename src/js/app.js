@@ -12,6 +12,7 @@ class EscapeBoxApp {
         this.keyManager = new KeyManager();
         this.passwordPopup = new PasswordPopup();
         this.menu = new Menu();
+        this.isDemoMode = false;
         this.initializeApp();
     }
 
@@ -129,15 +130,15 @@ class EscapeBoxApp {
     }
 
     setDemoMode() {
-        this.timer.reset(15); // 15 minutes
-        this.activeCombinationLines = 1;
+        this.isDemoMode = true;
+        this.timer.reset(15);
         this.showAdminCombinations(1);
         this.keyManager.setActiveKeys(1);
     }
 
     setStandardMode() {
-        this.timer.reset(60); // 60 minutes
-        this.activeCombinationLines = 3;
+        this.isDemoMode = false;
+        this.timer.reset(60);
         this.showAdminCombinations(3);
         this.keyManager.setActiveKeys(3);
     }
@@ -155,10 +156,11 @@ class EscapeBoxApp {
 
     saveAdminCombinations() {
         const combinations = [];
+        const maxCombinations = this.isDemoMode ? 1 : 3;
     
-        for (let i = 0; i < 3; i++) { // Pour 3 clés maximum
+        for (let i = 0; i < maxCombinations; i++) {
             const keyCombination = [];
-            for (let j = 0; j < 4; j++) { // 4 selects par clé
+            for (let j = 0; j < 4; j++) {
                 const selectId = `adminSelect${i * 4 + j + 1}`;
                 const select = document.getElementById(selectId);
                 if (!select || select.value === '') {
@@ -211,15 +213,6 @@ class EscapeBoxApp {
         } else {
             this.setStandardMode(); // Example: Switch to 60 min mode
         }
-    }
-
-    // Example: Other functions of EscapeBoxApp...
-    setDemoMode() {
-        this.timer.reset(15); // 15 minutes
-    }
-
-    setStandardMode() {
-        this.timer.reset(60); // 60 minutes
     }
 }
 
