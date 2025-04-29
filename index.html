@@ -12,6 +12,12 @@
 </head>
 
 <body>
+    <div class="audio-controls">
+        <button id="playBtn" title="Lecture">▶️</button>
+        <button id="pauseBtn" title="Pause">⏸️</button>
+        <button id="volUpBtn" title="Volume +">🔊</button>
+        <button id="volDownBtn" title="Volume -">🔉</button>
+    </div>
     <div class="container">
         <h2 id="playerLabel">Joueur</h2>
         <h1 id="timer">60:00</h1>
@@ -44,6 +50,7 @@
     </div>
 
     <script type="module" src="src/js/app.js"></script>
+    <script type="module" src="src/js/modules/audio.js"></script>
 </body>
 <footer>
     <p>2025 EscapeBox.</p>
