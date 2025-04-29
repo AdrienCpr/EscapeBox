@@ -117,6 +117,47 @@ validateBtn.addEventListener('click', () => {
     }
 });
 
+// Gestion de l'affichage du menu
+document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('dropdownMenu').classList.toggle('hidden');
+});
+
+// Mise à jour du timer via le bouton "Valider" du menu
+document.getElementById('Btn15').addEventListener('click', () => {
+    document.getElementById('timer').textContent = `${15}:00`;
+});
+
+// Mise à jour du timer via le bouton "Valider" du menu
+document.getElementById('Btn60').addEventListener('click', () => {
+    document.getElementById('timer').textContent = `${60}:00`;
+});
+
+const correctPassword = "escape";
+let menuUnlocked = false;
+let menuOpen = false;
+
+const menuToggle = document.getElementById("menuToggle");
+const dropdownMenu = document.getElementById("dropdownMenu");
+
+menuToggle.addEventListener("click", () => {
+    if (!menuUnlocked) {
+        const userPassword = prompt("Entrez le mot de passe pour accéder au menu :");
+        if (userPassword === correctPassword) {
+            menuUnlocked = true;
+            dropdownMenu.classList.remove("hidden");
+            menuOpen = true;
+        } else if (userPassword !== null) {
+            alert("Mot de passe incorrect.");
+        }
+    } else {
+        // Si déjà déverrouillé, basculer l'affichage du menu
+        menuOpen = !menuOpen;
+        dropdownMenu.classList.toggle("hidden", !menuOpen);
+        menuUnlocked = !menuUnlocked
+    }
+});
+
+
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
