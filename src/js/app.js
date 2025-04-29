@@ -79,6 +79,22 @@ class EscapeBoxApp {
         this.passwordPopup.showPopup();
     }
 
+    //alert custom
+    showToast(message, type = 'error') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+    
+        document.body.appendChild(toast);
+    
+        setTimeout(() => toast.classList.add('show'), 100);
+    
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => document.body.removeChild(toast), 400);
+        }, 3000);
+    }
+    
     resetGame() {
         this.timer.reset();
         this.combinationManager.resetCombination();
@@ -118,12 +134,12 @@ class EscapeBoxApp {
         if (isCorrect) {
             let audio = new Audio('./src/assets/correct_answer.mp3');
             audio.play();
-            alert('Bravo ! Vous avez trouvé la bonne combinaison.');
+            this.showToast('Bravo ! Vous avez trouvé la bonne combinaison.', 'success');
             this.keyManager.unlockKey(nextKey);
         } else {
             let audio = new Audio('./src/assets/wrong_answer.mp3');
             audio.play();
-            alert('Mauvaise combinaison, réessayez.');
+            this.showToast('Mauvaise combinaison, réessayez.');
         }
     }    
 
