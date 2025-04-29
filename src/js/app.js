@@ -116,6 +116,16 @@ class EscapeBoxApp {
         const keyOrder = ['key1', 'key2', 'key3'];
         const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
 
+        // Vérifier si toutes les clés ont été trouvées
+        const allKeysFound = keyOrder.every(keyId => this.keyManager.keys[keyId]);
+        if (allKeysFound) {
+            let audio = new Audio('./src/assets/victory.mp3');
+            audio.play();
+            this.showToast('Félicitations ! Vous avez trouvé toutes les clés !', 'success');
+            this.timer.stop();
+            return;
+        }
+
         if (!nextKey) {
             alert('Toutes les clés ont déjà été trouvées !');
             return;
@@ -130,8 +140,8 @@ class EscapeBoxApp {
             document.getElementById('playerSelect4')?.value
         ];
 
+        // Vérifier si la combinaison actuelle est correcte
         const expectedCombination = storedCombinations[keyIndex];
-
         const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
 
         if (isCorrect) {
@@ -139,6 +149,15 @@ class EscapeBoxApp {
             audio.play();
             this.showToast('Bravo ! Vous avez trouvé la bonne combinaison.', 'success');
             this.keyManager.unlockKey(nextKey);
+
+            // Vérifier si toutes les combinaisons sont maintenant validées
+            const allCombinationsValidated = keyOrder.every(keyId => this.keyManager.keys[keyId]);
+            if (allCombinationsValidated) {
+                let audio = new Audio('./src/assets/victory.mp3');
+                audio.play();
+                this.showToast('Félicitations ! Vous avez trouvé toutes les clés !', 'success');
+                this.timer.stop();
+            }
         } else {
             let audio = new Audio('./src/assets/wrong_answer.mp3');
             audio.play();
