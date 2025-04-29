@@ -18,24 +18,28 @@
             <button id="startBtn">Démarrer</button>
             <button id="resetBtn">Réinitialiser</button>
         </div>
+        
+        <div class="game-content">
+            <div class="keys">
+                <h3>Clés trouvées</h3>
+                <div id="key1" class="key">Clé 1</div>
+                <div id="key2" class="key">Clé 2</div>
+                <div id="key3" class="key">Clé 3</div>
+            </div>
 
-        <div class="keys">
-            <h3>Clés trouvées</h3>
-            <div id="key1" class="key">Clé 1</div>
-            <div id="key2" class="key">Clé 2</div>
-            <div id="key3" class="key">Clé 3</div>
+            <div class="combination">
+                <h3 class="keys">Entrez la combinaison :</h3>
+                <select id="playerSelect1"></select>
+                <select id="playerSelect2"></select>
+                <select id="playerSelect3"></select>
+                <select id="playerSelect4"></select>
+                <button id="validateBtn">Valider</button>
+            </div>
+
+            <img src="./src/assets/Image.jpg" alt="Escape Box" width="300" height="200">
         </div>
 
-        <div class="combination">
-            <h3 class="keys">Entrez la combinaison :</h3>
-            <select id="playerSelect1"></select>
-            <select id="playerSelect2"></select>
-            <select id="playerSelect3"></select>
-            <select id="playerSelect4"></select>
-            <button id="validateBtn">Valider</button>
-        </div>
-
-        <img src="./src/assets/Image.jpg" alt="Escape Box" width="300" height="200">
+        
     </div>
 
     <script type="module" src="src/js/app.js"></script>

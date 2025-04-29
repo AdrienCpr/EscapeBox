@@ -47,7 +47,10 @@ class EscapeBoxApp {
             this.keyManager.initializeKeys();
 
             // Gérer les événements des boutons
-            document.getElementById('startBtn')?.addEventListener('click', () => this.timer.start());
+            document.getElementById('startBtn')?.addEventListener('click', () => {
+                this.timer.start();
+                document.querySelector('.game-content').classList.add('visible');
+            });
             document.getElementById('resetBtn')?.addEventListener('click', () => this.resetGame());
             document.getElementById('pauseBtn')?.addEventListener('click', () => this.timer.stop());
             document.getElementById('validateBtn')?.addEventListener('click', () => this.validateCombination());
@@ -55,11 +58,8 @@ class EscapeBoxApp {
             // Gérer les événements du menu
             document.getElementById('menuToggle')?.addEventListener('click', () => this.handleMenuToggle());
             document.getElementById('closeMenu')?.addEventListener('click', () => this.toggleMenu());
-            document.getElementById('applyTimeBtn')?.addEventListener('click', () => {
-                this.saveAdminCombinations();
-                this.applyTime();
-            });
-                        
+            document.getElementById('applyTimeBtn')?.addEventListener('click', () => this.applyTime());
+
             // Gérer les événements des boutons Démo / 60 min
             document.getElementById('Btn15')?.addEventListener('click', () => this.setDemoMode());
             document.getElementById('Btn60')?.addEventListener('click', () => this.setStandardMode());
@@ -73,14 +73,16 @@ class EscapeBoxApp {
     }
 
     resetGame() {
-        this.timer.reset(CONFIG.defaultTime);
+        this.timer.reset();
         this.combinationManager.resetCombination();
         this.keyManager.resetKeys();
+        document.querySelector('.game-content').classList.remove('visible');
     }
 
     validateCombination() {
-        if (this.combinationManager.validateCombination()) {
-            console.log('Combinaison correcte !');
+        const isValid = this.combinationManager.validateCombination();
+        if (isValid) {
+            this.keyManager.unlockNextKey();
         }
     }
 
@@ -93,22 +95,19 @@ class EscapeBoxApp {
 
     applyTime() {
         const timeInput = document.getElementById('timeInput');
-        const newTime = parseInt(timeInput?.value) || CONFIG.defaultTime;
-        this.timer.reset(newTime);
-        this.toggleMenu();
+        const newTime = parseInt(timeInput.value);
+        if (!isNaN(newTime) && newTime > 0) {
+            this.timer.reset(newTime);
+        }
     }
 
     setDemoMode() {
-        this.timer.reset(15); // 15 minutes
-        this.showAdminCombinations(1); // ❗ 1 ligne de combinaison MJ
-        this.keyManager.setActiveKeys(1); // ❗ 1 clé visible côté joueurs
+        this.timer.reset(15);
     }
-    
+
     setStandardMode() {
-        this.timer.reset(60); // 60 minutes
-        this.showAdminCombinations(3); // ❗ 3 lignes de combinaisons MJ
-        this.keyManager.setActiveKeys(3);
-    }    
+        this.timer.reset(60);
+    }
 
     showAdminCombinations(numberOfLines) {
         const allCombinations = document.querySelectorAll('.admin-combination');
