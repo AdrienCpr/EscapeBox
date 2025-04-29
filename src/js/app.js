@@ -84,11 +84,42 @@ class EscapeBoxApp {
     }
 
     validateCombination() {
-        const isValid = this.combinationManager.validateCombination();
-        if (isValid) {
-            this.keyManager.unlockNextKey();
+        const storedCombinations = JSON.parse(localStorage.getItem('escapeBoxCombinations'));
+    
+        if (!storedCombinations) {
+            alert('Aucune combinaison enregistrée.');
+            return;
         }
-    }
+    
+        // Trouver la prochaine clé à débloquer
+        const keyOrder = ['key1', 'key2', 'key3'];
+        const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
+    
+        if (!nextKey) {
+            alert('Toutes les clés ont déjà été trouvées !');
+            return;
+        }
+    
+        const keyIndex = keyOrder.indexOf(nextKey);
+    
+        const playerCombination = [
+            document.getElementById('playerSelect1')?.value,
+            document.getElementById('playerSelect2')?.value,
+            document.getElementById('playerSelect3')?.value,
+            document.getElementById('playerSelect4')?.value
+        ];
+    
+        const expectedCombination = storedCombinations[keyIndex];
+    
+        const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
+    
+        if (isCorrect) {
+            alert('Bravo ! Vous avez trouvé la bonne combinaison.');
+            this.keyManager.unlockKey(nextKey); // Débloquer la clé
+        } else {
+            alert('Mauvaise combinaison, réessayez.');
+        }
+    }    
 
     toggleMenu() {
         const menu = document.getElementById('dropdownMenu');
