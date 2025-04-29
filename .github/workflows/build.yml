@@ -24,10 +24,9 @@ jobs:
       - name: Build with electron-builder
         run: npm run build
 
-      - name: Upload Windows exe
+      - name: Upload EscapeBox exe
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: EscapeBox-Windows
-          path: |
-            dist/*.exe
-            dist/*.zip
+          path: dist/*.exe
