@@ -7,7 +7,7 @@ export class CombinationManager {
     }
 
     initializeSelects() {
-        const selects = document.querySelectorAll('select[id^="select"]');
+        const selects = document.querySelectorAll('select[id^="playerSelect"], select[id^="adminSelect"]');
         selects.forEach(select => {
             CONFIG.symbols.forEach(symbol => {
                 const option = document.createElement('option');
@@ -19,7 +19,7 @@ export class CombinationManager {
     }
 
     validateCombination() {
-        const selects = document.querySelectorAll('select[id^="select"]');
+        const selects = document.querySelectorAll('select[id^="playerSelect"]');
         const currentCombination = Array.from(selects).map(select => select.value);
         
         // Vérifier si la combinaison est correcte
@@ -30,7 +30,7 @@ export class CombinationManager {
     }
 
     resetCombination() {
-        const selects = document.querySelectorAll('select[id^="select"]');
+        const selects = document.querySelectorAll('select[id^="playerSelect"]');
         selects.forEach(select => {
             select.selectedIndex = 0;
         });
