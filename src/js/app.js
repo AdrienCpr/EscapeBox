@@ -50,6 +50,7 @@ class EscapeBoxApp {
             document.getElementById('startBtn')?.addEventListener('click', () => {
                 this.timer.start();
                 document.querySelector('.game-content').classList.add('visible');
+                document.getElementById('startBtn').classList.add('hidden');
             });
             document.getElementById('resetBtn')?.addEventListener('click', () => this.resetGame());
             document.getElementById('pauseBtn')?.addEventListener('click', () => this.timer.stop());
@@ -100,46 +101,13 @@ class EscapeBoxApp {
         this.combinationManager.resetCombination();
         this.keyManager.resetKeys();
         document.querySelector('.game-content').classList.remove('visible');
+        document.getElementById('startBtn').classList.remove('hidden');
     }
 
     validateCombination() {
-        const storedCombinations = JSON.parse(localStorage.getItem('escapeBoxCombinations'));
-    
-        if (!storedCombinations) {
-            alert('Aucune combinaison enregistrée.');
-            return;
-        }
-    
-        const keyOrder = ['key1', 'key2', 'key3'];
-        const nextKey = keyOrder.find(keyId => !this.keyManager.keys[keyId]);
-    
-        if (!nextKey) {
-            alert('Toutes les clés ont déjà été trouvées !');
-            return;
-        }
-    
-        const keyIndex = keyOrder.indexOf(nextKey);
-    
-        const playerCombination = [
-            document.getElementById('playerSelect1')?.value,
-            document.getElementById('playerSelect2')?.value,
-            document.getElementById('playerSelect3')?.value,
-            document.getElementById('playerSelect4')?.value
-        ];
-    
-        const expectedCombination = storedCombinations[keyIndex];
-    
-        const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
-    
-        if (isCorrect) {
-            let audio = new Audio('./src/assets/correct_answer.mp3');
-            audio.play();
-            this.showToast('Bravo ! Vous avez trouvé la bonne combinaison.', 'success');
-            this.keyManager.unlockKey(nextKey);
-        } else {
-            let audio = new Audio('./src/assets/wrong_answer.mp3');
-            audio.play();
-            this.showToast('Mauvaise combinaison, réessayez.');
+        const isValid = this.combinationManager.validateCombination();
+        if (isValid) {
+            this.keyManager.unlockNextKey();
         }
     }    
 
