@@ -106,10 +106,16 @@ class EscapeBoxApp {
 
     applyTime() {
         const timeInput = document.getElementById('timeInput');
-        const newTime = parseInt(timeInput?.value) || CONFIG.defaultTime;
-        this.timer.reset(newTime);
+    
+        if (timeInput && timeInput.value) {
+            const newTime = parseInt(timeInput.value);
+            if (!isNaN(newTime)) {
+                this.timer.reset(newTime);
+            }
+        }
+        
         this.toggleMenu();
-    }
+    }    
 
     setDemoMode() {
         this.timer.reset(15); // 15 minutes
