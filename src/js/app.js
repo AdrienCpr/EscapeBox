@@ -61,6 +61,9 @@ class EscapeBoxApp {
         // 🔥 Gérer les événements des boutons Démo / 60 min
         document.getElementById('Btn15').addEventListener('click', () => this.setDemoMode());
         document.getElementById('Btn60').addEventListener('click', () => this.setStandardMode());
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 
