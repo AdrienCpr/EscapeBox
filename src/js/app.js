@@ -67,6 +67,9 @@ class EscapeBoxApp {
             // Gérer les événements des boutons Démo / 60 min
             document.getElementById('Btn15')?.addEventListener('click', () => this.setDemoMode());
             document.getElementById('Btn60')?.addEventListener('click', () => this.setStandardMode());
+
+            document.getElementById('Btn15')?.addEventListener('click', () => this.selectMode('Btn15'));
+            document.getElementById('Btn60')?.addEventListener('click', () => this.selectMode('Btn60'));
         } catch (error) {
             console.error('Erreur lors de l\'initialisation de l\'application:', error);
         }
@@ -203,6 +206,36 @@ class EscapeBoxApp {
                 resetBtn.disabled = false;
             }
         }
+    }
+
+    // Toggle the selected state on demo/60 min buttons
+    selectMode(selectedButtonId) {
+        const btn15 = document.getElementById('Btn15');
+        const btn60 = document.getElementById('Btn60');
+
+        // Remove 'selected' class from both buttons
+        btn15.classList.remove('selected');
+        btn60.classList.remove('selected');
+
+        // Add 'selected' class to the clicked button
+        const selectedButton = document.getElementById(selectedButtonId);
+        selectedButton.classList.add('selected');
+
+        // You can add other logic here to set the timer mode
+        if (selectedButtonId === 'Btn15') {
+            this.setDemoMode(); // Example: Switch to demo mode
+        } else {
+            this.setStandardMode(); // Example: Switch to 60 min mode
+        }
+    }
+
+    // Example: Other functions of EscapeBoxApp...
+    setDemoMode() {
+        this.timer.reset(15); // 15 minutes
+    }
+
+    setStandardMode() {
+        this.timer.reset(60); // 60 minutes
     }
 }
 
