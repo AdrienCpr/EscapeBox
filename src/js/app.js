@@ -58,7 +58,11 @@ class EscapeBoxApp {
             // Gérer les événements du menu
             document.getElementById('menuToggle')?.addEventListener('click', () => this.handleMenuToggle());
             document.getElementById('closeMenu')?.addEventListener('click', () => this.toggleMenu());
-            document.getElementById('applyTimeBtn')?.addEventListener('click', () => this.applyTime());
+            document.getElementById('applyTimeBtn')?.addEventListener('click', () => {
+                this.saveAdminCombinations();
+                this.applyTime();
+                this.toggleMenu();
+            });
 
             // Gérer les événements des boutons Démo / 60 min
             document.getElementById('Btn15')?.addEventListener('click', () => this.setDemoMode());
@@ -95,9 +99,11 @@ class EscapeBoxApp {
 
     applyTime() {
         const timeInput = document.getElementById('timeInput');
-        const newTime = parseInt(timeInput.value);
-        if (!isNaN(newTime) && newTime > 0) {
-            this.timer.reset(newTime);
+        if (timeInput) {
+            const newTime = parseInt(timeInput.value);
+            if (!isNaN(newTime) && newTime > 0) {
+                this.timer.reset(newTime);
+            }
         }
     }
 
@@ -146,14 +152,16 @@ class EscapeBoxApp {
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         
-        const savedCombinations = localStorage.getItem('escapeBoxCombinations');
-        
-        if (!savedCombinations || JSON.parse(savedCombinations).length === 0) {
-            startBtn.disabled = true;
-            resetBtn.disabled = true;
-        } else {
-            startBtn.disabled = false;
-            resetBtn.disabled = false;
+        if (startBtn && resetBtn) {
+            const savedCombinations = localStorage.getItem('escapeBoxCombinations');
+            
+            if (!savedCombinations || JSON.parse(savedCombinations).length === 0) {
+                startBtn.disabled = true;
+                resetBtn.disabled = true;
+            } else {
+                startBtn.disabled = false;
+                resetBtn.disabled = false;
+            }
         }
     }
 }
