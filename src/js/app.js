@@ -2,6 +2,7 @@ import { Timer } from './modules/timer.js';
 import { CombinationManager } from './modules/combination.js';
 import { KeyManager } from './modules/keys.js';
 import { PasswordPopup } from './modules/password-popup.js';
+import { Menu } from './modules/menu.js';
 import { CONFIG } from '../config/config.js';
 
 class EscapeBoxApp {
@@ -10,24 +11,46 @@ class EscapeBoxApp {
         this.combinationManager = new CombinationManager();
         this.keyManager = new KeyManager();
         this.passwordPopup = new PasswordPopup();
+        this.menu = new Menu();
         this.initializeApp();
     }
 
-    initializeApp() {
-        // Initialiser les composants
-        this.combinationManager.initializeSelects();
-        this.keyManager.initializeKeys();
+    async initializeApp() {
+        try {
+            // Attendre que le menu soit chargé
+            const menuLoaded = await this.menu.loadMenu();
+            if (!menuLoaded) {
+                console.error('Le menu n\'a pas pu être chargé');
+                return;
+            }
 
-        // Gérer les événements des boutons
-        document.getElementById('startBtn').addEventListener('click', () => this.timer.start());
-        document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
-        document.getElementById('pauseBtn').addEventListener('click', () => this.timer.stop());
-        document.getElementById('validateBtn').addEventListener('click', () => this.validateCombination());
+            // Initialiser les composants
+            this.combinationManager.initializeSelects();
+            this.keyManager.initializeKeys();
 
-        // Gérer les événements du menu
-        document.getElementById('menuToggle').addEventListener('click', () => this.handleMenuToggle());
-        document.getElementById('closeMenu').addEventListener('click', () => this.toggleMenu());
-        document.getElementById('applyTimeBtn').addEventListener('click', () => this.applyTime());
+            // Gérer les événements des boutons
+            document.getElementById('startBtn').addEventListener('click', () => this.timer.start());
+            document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
+            document.getElementById('pauseBtn').addEventListener('click', () => this.timer.stop());
+            document.getElementById('validateBtn').addEventListener('click', () => this.validateCombination());
+
+            // Gérer les événements du menu
+            const menuToggle = document.getElementById('menuToggle');
+            const closeMenu = document.getElementById('closeMenu');
+            const applyTimeBtn = document.getElementById('applyTimeBtn');
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', () => this.handleMenuToggle());
+            }
+            if (closeMenu) {
+                closeMenu.addEventListener('click', () => this.toggleMenu());
+            }
+            if (applyTimeBtn) {
+                applyTimeBtn.addEventListener('click', () => this.applyTime());
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'initialisation de l\'application:', error);
+        }
     }
 
     handleMenuToggle() {
@@ -50,7 +73,9 @@ class EscapeBoxApp {
 
     toggleMenu() {
         const menu = document.getElementById('dropdownMenu');
-        menu.classList.toggle('hidden');
+        if (menu) {
+            menu.classList.toggle('hidden');
+        }
     }
 
     applyTime() {
