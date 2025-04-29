@@ -10,52 +10,44 @@
 </head>
 
 <body>
-<<<<<<< Updated upstream
     <div class="container">
         <h2 id="playerLabel">Joueur</h2>
         <h1 id="timer">60:00</h1>
-=======
-    <div class="menu-container">
-        <button id="menuToggle" title="Paramètres">⋯</button>
-        <div id="dropdownMenu" class="dropdown hidden">
-            <label class="keys">Maitre Du Jeu</label><br>
-            <button id="closeMenu" class="close-button" title="Fermer">×</button>
-            <label for="timeInput">Temps :</label>
-            <button id="Btn15">Démo</button>
-            <button id="Btn60">60 min</button>
-            <div class="combination admin-combination">
-                <h3 class="keys">Entrez les combinaisons :</h3>
-                <select id="select1"></select>
-                <select id="select2"></select>
-                <select id="select3"></select>
-                <select id="select4"></select>
+
+        <div class="menu-container">
+            <button id="menuToggle" title="Paramètres">⋯</button>
+            <div id="dropdownMenu" class="dropdown hidden">
+                <label class="keys">Maitre Du Jeu</label><br>
+                <button id="closeMenu" class="close-button" title="Fermer">×</button>
+                <label for="timeInput">Temps :</label>
+                <button id="Btn15">Démo</button>
+                <button id="Btn60">60 min</button>
+
+                <div class="combination admin-combination">
+                    <h3 class="keys">Entrez les combinaisons :</h3>
+                    <select id="adminSelect1"></select>
+                    <select id="adminSelect2"></select>
+                    <select id="adminSelect3"></select>
+                    <select id="adminSelect4"></select>
+                </div>
+
+                <div class="combination admin-combination">
+                    <select id="adminSelect5"></select>
+                    <select id="adminSelect6"></select>
+                    <select id="adminSelect7"></select>
+                    <select id="adminSelect8"></select>
+                </div>
+
+                <div class="combination admin-combination">
+                    <select id="adminSelect9"></select>
+                    <select id="adminSelect10"></select>
+                    <select id="adminSelect11"></select>
+                    <select id="adminSelect12"></select>
+                </div>
+
+                <button id="applyTimeBtn">Valider</button>
             </div>
-            <div class="combination admin-combination">
-                <select id="select5"></select>
-                <select id="select6"></select>
-                <select id="select7"></select>
-                <select id="select8"></select>
-            </div>
-            <div class="combination admin-combination">
-                <select id="select9"></select>
-                <select id="select10"></select>
-                <select id="select11"></select>
-                <select id="select12"></select>
-            </div>
-            <button id="applyTimeBtn">Valider</button>
         </div>
-    </div>
-
-<div class="container">
-    <h2 id="playerLabel">Joueur</h2> <!-- Texte ajouté ici -->
-
-    <h1 id="timer">60:00</h1>
-
-    <!-- <div class="controls">
-        <label class="keys" for="timeInput">Choisissez le temps (minutes) :</label>
-        <input type="number" id="timeInput" value="60" min="1" max="999">
-    </div> -->
->>>>>>> Stashed changes
 
         <div class="buttons">
             <button id="startBtn">Démarrer</button>
@@ -72,10 +64,10 @@
 
         <div class="combination">
             <h3 class="keys">Entrez la combinaison :</h3>
-            <select id="select1"></select>
-            <select id="select2"></select>
-            <select id="select3"></select>
-            <select id="select4"></select>
+            <select id="playerSelect1"></select>
+            <select id="playerSelect2"></select>
+            <select id="playerSelect3"></select>
+            <select id="playerSelect4"></select>
             <button id="validateBtn">Valider</button>
         </div>
 

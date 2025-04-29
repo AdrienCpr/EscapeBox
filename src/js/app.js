@@ -28,50 +28,26 @@ class EscapeBoxApp {
             this.combinationManager.initializeSelects();
             this.keyManager.initializeKeys();
 
-<<<<<<< Updated upstream
             // Gérer les événements des boutons
-            document.getElementById('startBtn').addEventListener('click', () => this.timer.start());
-            document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
-            document.getElementById('pauseBtn').addEventListener('click', () => this.timer.stop());
-            document.getElementById('validateBtn').addEventListener('click', () => this.validateCombination());
+            document.getElementById('startBtn')?.addEventListener('click', () => this.timer.start());
+            document.getElementById('resetBtn')?.addEventListener('click', () => this.resetGame());
+            document.getElementById('pauseBtn')?.addEventListener('click', () => this.timer.stop());
+            document.getElementById('validateBtn')?.addEventListener('click', () => this.validateCombination());
 
             // Gérer les événements du menu
-            const menuToggle = document.getElementById('menuToggle');
-            const closeMenu = document.getElementById('closeMenu');
-            const applyTimeBtn = document.getElementById('applyTimeBtn');
+            document.getElementById('menuToggle')?.addEventListener('click', () => this.handleMenuToggle());
+            document.getElementById('closeMenu')?.addEventListener('click', () => this.toggleMenu());
+            document.getElementById('applyTimeBtn')?.addEventListener('click', () => this.applyTime());
 
-            if (menuToggle) {
-                menuToggle.addEventListener('click', () => this.handleMenuToggle());
-            }
-            if (closeMenu) {
-                closeMenu.addEventListener('click', () => this.toggleMenu());
-            }
-            if (applyTimeBtn) {
-                applyTimeBtn.addEventListener('click', () => this.applyTime());
-            }
+            // Gérer les événements des boutons Démo / 60 min
+            document.getElementById('Btn15')?.addEventListener('click', () => this.setDemoMode());
+            document.getElementById('Btn60')?.addEventListener('click', () => this.setStandardMode());
         } catch (error) {
             console.error('Erreur lors de l\'initialisation de l\'application:', error);
         }
-=======
-        // Gérer les événements du menu
-        document.getElementById('menuToggle').addEventListener('click', () => this.handleMenuToggle());
-        document.getElementById('closeMenu').addEventListener('click', () => this.toggleMenu());
-        document.getElementById('applyTimeBtn').addEventListener('click', () => this.applyTime());
-
-        // 🔥 Gérer les événements des boutons Démo / 60 min
-        document.getElementById('Btn15').addEventListener('click', () => this.setDemoMode());
-        document.getElementById('Btn60').addEventListener('click', () => this.setStandardMode());
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
 
     handleMenuToggle() {
-        // Toujours afficher le popup de mot de passe
         this.passwordPopup.showPopup();
     }
 
@@ -83,7 +59,6 @@ class EscapeBoxApp {
 
     validateCombination() {
         if (this.combinationManager.validateCombination()) {
-            // Logique de validation réussie
             console.log('Combinaison correcte !');
         }
     }
@@ -97,26 +72,25 @@ class EscapeBoxApp {
 
     applyTime() {
         const timeInput = document.getElementById('timeInput');
-        const newTime = parseInt(timeInput.value) || CONFIG.defaultTime;
+        const newTime = parseInt(timeInput?.value) || CONFIG.defaultTime;
         this.timer.reset(newTime);
         this.toggleMenu();
     }
 
     setDemoMode() {
         this.timer.reset(15); // 15 minutes
-        this.showAdminCombinations(1); // 1 clé
-        this.keyManager.setActiveKeys(1); // 1 clé affichée
+        this.showAdminCombinations(1); // ❗ 1 ligne de combinaison MJ
+        this.keyManager.setActiveKeys(1); // ❗ 1 clé visible côté joueurs
     }
-
+    
     setStandardMode() {
         this.timer.reset(60); // 60 minutes
-        this.showAdminCombinations(3); // 3 clés
-        this.keyManager.setActiveKeys(3); // 3 clés affichées
-    }
+        this.showAdminCombinations(3); // ❗ 3 lignes de combinaisons MJ
+        this.keyManager.setActiveKeys(3);
+    }    
 
     showAdminCombinations(numberOfLines) {
         const allCombinations = document.querySelectorAll('.admin-combination');
-
         allCombinations.forEach((combo, index) => {
             if (index < numberOfLines) {
                 combo.style.display = 'block';
