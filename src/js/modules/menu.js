@@ -5,7 +5,7 @@ export class Menu {
 
     async loadMenu() {
         try {
-            const response = await fetch('/src/components/menu.html');
+            const response = await fetch('./src/components/menu.html');
             const html = await response.text();
             this.menuContainer = document.createElement('div');
             this.menuContainer.innerHTML = html;

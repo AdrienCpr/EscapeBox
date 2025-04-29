@@ -1,6 +1,7 @@
 export const CONFIG = {
     defaultTime: 60,
     timeOptions: [15, 60],
+    adminPassword: 'escape',
     symbols: [
         { value: 'I', label: 'I (Rome)' },
         { value: 'II', label: 'II (Rome)' },
