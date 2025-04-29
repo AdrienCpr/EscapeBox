@@ -24,6 +24,24 @@ class EscapeBoxApp {
                 return;
             }
 
+            //Disable buttons if keys are empties
+            // Wait until the DOM has rendered all necessary elements
+            const startBtn = document.getElementById('startBtn');
+            const resetBtn = document.getElementById('resetBtn');
+
+            if (startBtn && resetBtn) {
+                const savedCombinations = localStorage.getItem('escapeBoxCombinations');
+                console.log('Saved:', savedCombinations);
+
+                if (!savedCombinations || JSON.parse(savedCombinations).length === 0) {
+                    startBtn.disabled = true;
+                    resetBtn.disabled = true;
+                    console.log('Buttons disabled due to no combinations');
+                }
+            } else {
+                console.warn('Buttons not found in DOM when checking combinations');
+            }
+
             // Initialiser les composants
             this.combinationManager.initializeSelects();
             this.keyManager.initializeKeys();
@@ -122,7 +140,23 @@ class EscapeBoxApp {
     
         localStorage.setItem('escapeBoxCombinations', JSON.stringify(combinations));
         console.log('Combinaisons sauvegardées:', combinations);
+        this.updateButtonStates();
     }    
+
+    updateButtonStates() {
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        
+        const savedCombinations = localStorage.getItem('escapeBoxCombinations');
+        
+        if (!savedCombinations || JSON.parse(savedCombinations).length === 0) {
+            startBtn.disabled = true;
+            resetBtn.disabled = true;
+        } else {
+            startBtn.disabled = false;
+            resetBtn.disabled = false;
+        }
+    }
 }
 
 // Initialiser l'application
