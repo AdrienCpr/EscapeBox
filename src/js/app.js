@@ -113,9 +113,13 @@ class EscapeBoxApp {
         const isCorrect = expectedCombination.every((val, index) => val === playerCombination[index]);
     
         if (isCorrect) {
+            let audio = new Audio('./src/assets/correct_answer.mp3');
+            audio.play();
             alert('Bravo ! Vous avez trouvé la bonne combinaison.');
             this.keyManager.unlockKey(nextKey);
         } else {
+            let audio = new Audio('./src/assets/wrong_answer.mp3');
+            audio.play();
             alert('Mauvaise combinaison, réessayez.');
         }
     }    
