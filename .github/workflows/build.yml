@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-exe:
     runs-on: windows-latest
 
     steps:
@@ -30,3 +30,24 @@ jobs:
         with:
           name: EscapeBox-Windows
           path: dist/*.exe
+
+
+  build-html:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run build script
+      run: |
+        chmod +x build.sh
+        ./build.sh
+
+    - name: Upload HTML artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: built-html
+        path: dist/index.html
+
+        
