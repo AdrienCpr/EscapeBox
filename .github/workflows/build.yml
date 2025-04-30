@@ -33,21 +33,20 @@ jobs:
 
 
   build-html:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Run build script
-      run: |
-        chmod +x build.sh
-        ./build.sh
+      - name: Run build script
+        run: |
+          chmod +x build.sh
+          ./build.sh
 
-    - name: Upload HTML artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: built-html
-        path: dist/index.html
+      - name: Upload HTML artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-html
+          path: dist/index.html
 
-        
