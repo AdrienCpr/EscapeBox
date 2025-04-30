@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -e  # Stop on error
+set -e
 
-echo "🧹 Nettoyage et création du dossier dist..."
+echo "🧹 Nettoyage du dossier dist..."
 rm -rf dist
 mkdir -p dist
 
@@ -10,41 +10,46 @@ mkdir -p dist
 echo "📄 Lecture de index.html"
 html=$(cat index.html)
 
-# -------- Lecture et nettoyage de main.css --------
-echo "🧼 Nettoyage de main.css (suppression des @import)..."
-main_css=$(grep -v '^@import' src/styles/main.css)
-
-# -------- Concaténation CSS --------
-echo "🎨 Concaténation CSS..."
-css=$(cat \
-  src/styles/base.css \
-  <(echo "$main_css") \
-  src/styles/components/*.css)
-
 # -------- Concaténation JS --------
 echo "🧠 Concaténation JS..."
+
+# Lire le contenu HTML du menu et l’échapper pour JS
+echo "📥 Lecture et échappement de menu.html"
+menu_html=$(cat src/components/menu.html | tr -d '\n' | sed 's/"/\\"/g')
+
+# Remplacer dans Menu.js la fonction fetch par une version inline
+echo "🔧 Injection du menu HTML dans Menu.js"
+modified_menu_js=$(sed "/async loadMenu()/,/^    }/c\
+    async loadMenu() {\n\
+        try {\n\
+            const html = \"$menu_html\";\n\
+            this.menuContainer = document.createElement('div');\n\
+            this.menuContainer.innerHTML = html;\n\
+            document.body.insertBefore(this.menuContainer.firstElementChild, document.body.firstChild);\n\
+            return true;\n\
+        } catch (error) {\n\
+            console.error('Erreur lors du chargement du menu:', error);\n\
+            return false;\n\
+        }\n\
+    }" src/js/modules/Menu.js)
+
+# Concaténation des JS avec Menu modifié
 js=$(cat \
   src/config/config.js \
+  <(echo "$modified_menu_js") \
   src/js/modules/*.js \
   src/js/app.js)
 
-# -------- Injection CSS/JS --------
-echo "🧪 Injection CSS dans <head>..."
-html=$(echo "$html" | sed "/<\/head>/i <style>$css</style>")
-
-echo "🧪 Injection JS avant </body>..."
+# Injection du JS dans index.html
+echo "📥 Injection du JS dans index.html"
 html=$(echo "$html" | sed "/<\/body>/i <script>$js</script>")
 
-# -------- Sauvegarde du HTML final --------
-echo "💾 Sauvegarde du fichier final dans dist/index.html"
+# Sauvegarde du HTML final
+echo "💾 Écriture de dist/index.html"
 echo "$html" > dist/index.html
 
-# -------- Copie de menu.html --------
-echo "📁 Copie de src/components/menu.html → dist/menu.html"
-cp src/components/menu.html dist/menu.html
-
-# -------- Copie des assets --------
-echo "📂 Copie de src/assets → dist/assets"
-cp -r src/assets dist/assets
+# Copie de tout le reste
+echo "📁 Copie des fichiers de src/ vers dist/"
+cp -r src/* dist/
 
 echo "✅ Build terminé avec succès !"
