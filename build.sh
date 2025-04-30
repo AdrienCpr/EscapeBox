@@ -31,7 +31,7 @@ modified_menu_js=$(sed "/async loadMenu()/,/^    }/c\
             console.error('Erreur lors du chargement du menu:', error);\n\
             return false;\n\
         }\n\
-    }" src/js/modules/Menu.js)
+    }" src/js/modules/menu.js)
 
 # Concaténation des JS avec Menu modifié
 js=$(cat \
